@@ -150,7 +150,7 @@ def update_output_container(selected_statistics, input_year):
 # Plot 2 Total Monthly Automobile sales using line chart.
         # grouping data for plotting.
 	# Hint:Use the columns Month and Automobile_Sales.
-        mas=yearly_datadata.groupby('Month')['Automobile_Sales'].sum().reset_index()
+        mas=yearly_data.groupby('Month')['Automobile_Sales'].sum().reset_index()
         Y_chart2 = dcc.Graph(figure=px.line(mas,
             x='Month',
             y='Automobile_Sales',
@@ -168,7 +168,7 @@ def update_output_container(selected_statistics, input_year):
     # Total Advertisement Expenditure for each vehicle using pie chart
          # grouping data for plotting.
          # Hint:Use the columns Vehicle_Type and Advertising_Expenditure
-        exp_data=yearly_data.groupbygroupby('Vehicle_Type')['Advertising_Expenditure'].sum().reset_index()
+        exp_data=yearly_data.groupby('Vehicle_Type')['Advertising_Expenditure'].sum().reset_index()
         Y_chart4 = dcc.Graph(figure=px.pie(exp_data,
             values='Advertising_Expenditure',
             names='Vehicle_Type', 
