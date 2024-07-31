@@ -8,6 +8,7 @@ import dash
 from dash import dcc
 from dash import html, ctx
 from dash.dependencies import Input, Output
+import more_itertools
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
@@ -26,7 +27,7 @@ app.title = "Automobile Statistics Dashboard"
 dropdown_options = [
     {'label': 'Yearly Statistics', 'value': 'Yearly Statistics'},
     {'label': 'Recession Period Statistics', 'value': 'Recession Period Statistics'}
-]
+],
 # List of years 
 year_list = [i for i in range(1980, 2024, 1)]
 #---------------------------------------------------------------------------------------
@@ -39,8 +40,11 @@ app.layout = html.Div([
                                  html.Label("Select Statistics:"),
                                  dcc.Dropdown(
                                               id='dropdown-statistics',
-                                              options=dropdown_options,
-                                              value='Select Statistics',
+                                              options=[
+							   {'label': 'Yearly Statistics', 'value': 'Yearly Statistics'},
+							   {'label': 'Recession Period Statistics', 'value': 'Recession Period Statistics'}
+						      ],
+                                              value='Select-year',
                                               placeholder='Select a report type',
                                               style={'textAlign':'center', 'padding':3, 'width':0.80, 'font-size':20})]),
                        html.Div(dcc.Dropdown(
@@ -112,9 +116,9 @@ def update_output_container(selected_statistics, input_year):
 # Plot 4 bar chart for the effect of unemployment rate on vehicle type and sales
         #grouping data for plotting
 	# Hint:Use unemployment_rate,Vehicle_Type and Automobile_Sales columns
-        unemp_data= recession_data.groupby(['Vehicle_Type', 'unemployment_rate'])['Automobile_Sales'].mean().reset_index()        
+        unemp_data = recession_data.groupby(['unemployment_rate', 'Vehicle_Type'])['Automobile_Sales'].mean().reset_index()
         R_chart4 = dcc.Graph(figure=px.bar(unemp_data,
-        x='Vehicle_Type',
+        x='unemployment_rate',
         y='Automobile_Sales',
         color='unemployment_rate',
         labels={'unemployment_rate': 'Unemployment Rate', 'Automobile_Sales': 'Average Automobile Sales'},
@@ -141,7 +145,7 @@ def update_output_container(selected_statistics, input_year):
         Y_chart1 = dcc.Graph(figure=px.line(yas,
                    x='Year',
                    y='Automobile_Sales',
-                   title='Yearly Automobile Sales'))
+                   title='Yearly Automobile Sales Using Line Chart {}'.format(input_year)))
             
 # Plot 2 Total Monthly Automobile sales using line chart.
         # grouping data for plotting.
@@ -149,7 +153,7 @@ def update_output_container(selected_statistics, input_year):
         mas=data.groupby('Month')['Automobile_Sales'].sum().reset_index()
         Y_chart2 = dcc.Graph(figure=px.line(mas,
             x='Month',
-            y='Automobile Sales by Month',
+            y='Automobile_Sales',
             title='Total Monthly Automobile Sales'))
 
   # Plot bar chart for average number of vehicles sold during the given year
