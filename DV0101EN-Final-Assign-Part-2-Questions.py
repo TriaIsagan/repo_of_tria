@@ -141,7 +141,7 @@ def update_output_container(selected_statistics, input_year):
 #plot 1 Yearly Automobile sales using line chart for the whole period.
         # grouping data for plotting.
         # Hint:Use the columns Year and Automobile_Sales.
-        yas= data.groupby('Year')['Automobile_Sales'].mean().reset_index()
+        yas= yearly_data.groupby('Year')['Automobile_Sales'].mean().reset_index()
         Y_chart1 = dcc.Graph(figure=px.line(yas,
                    x='Year',
                    y='Automobile_Sales',
@@ -150,7 +150,7 @@ def update_output_container(selected_statistics, input_year):
 # Plot 2 Total Monthly Automobile sales using line chart.
         # grouping data for plotting.
 	# Hint:Use the columns Month and Automobile_Sales.
-        mas=data.groupby('Month')['Automobile_Sales'].sum().reset_index()
+        mas=yearly_datadata.groupby('Month')['Automobile_Sales'].sum().reset_index()
         Y_chart2 = dcc.Graph(figure=px.line(mas,
             x='Month',
             y='Automobile_Sales',
